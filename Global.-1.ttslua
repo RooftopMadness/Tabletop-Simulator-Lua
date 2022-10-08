@@ -1,1 +1,43 @@
 --[[ Lua code. See documentation: https://api.tabletopsimulator.com/ --]]
+
+--[[ The onLoad event is called after the game save finishes loading. --]]
+
+-- dice = nil
+snake = nil
+snakes = nil
+
+function onLoad()
+    --[[ print('onLoad!') --]]
+    -- dice = spawnObject({type="D6"})
+    secondSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    secondSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028384209829634098/Snake_3.png", thickness = 0.001})
+    thirdSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    thirdSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028384210190340196/Snake_4.png", thickness = 0.001})
+    fourthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    fourthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028384210957901824/Snake_6.png", thickness = 0.001})
+    fifthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    fifthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028384211415076996/Snake_7.png", thickness = 0.001})
+    sixthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    sixthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028384211855478834/Snake_1.png", thickness = 0.001})
+    seventhSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    seventhSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028384212216184902/Snake_2.png", thickness = 0.001})
+
+    snake = getObjectFromGUID("")
+    snake2 = getObjectFromGUID("")
+    snake3 = getObjectFromGUID("")
+    snake4 = getObjectFromGUID("")
+    snake5 = getObjectFromGUID("d9c26b")
+end
+
+--[[ The onUpdate event is called once per frame. --]]
+function onUpdate()
+    --[[ print('onUpdate loop!') --]]
+end
+
+function getDie()
+    return dice
+end
+
+function getSnakes()
+    return snakes
+end
