@@ -26,14 +26,34 @@ function onLoad()
     --eigthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
     --eigthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617491120918578/snake_8_centered.png", thickness = 0.001})
 
-    snake1 = getObjectFromGUID("")
-    snake2 = getObjectFromGUID("")
-    snake3 = getObjectFromGUID("")
-    snake4 = getObjectFromGUID("")
-    snake5 = getObjectFromGUID("")
-    snake6 = getObjectFromGUID("")
-    snake7 = getObjectFromGUID("")
-    snake8 = getObjectFromGUID("")
+    --every snake has a property; the location of the tail compared to the head {x difference (left negative), y difference (down negative)}
+    snake1 = getObjectFromGUID("02c5af")
+    snake1Tail = {-1,-4}
+
+    snake2 = getObjectFromGUID("d276ce")
+    snake2Tail = {0,-2}
+
+    snake3 = getObjectFromGUID("f8f64c")
+    snake3Tail = {2,-3}
+
+    snake4 = getObjectFromGUID("175c27")
+    snake4Tail = {1,-3}
+
+    snake5 = getObjectFromGUID("453cb8")
+    snake5Tail = {1,-3}
+
+    snake6 = getObjectFromGUID("f8c5b3")
+    snake6Tail = {1,-2}
+
+    snake7 = getObjectFromGUID("06063b")
+    snake7Tail = {-1,-2}
+
+    snake8 = getObjectFromGUID("e4f8df")
+    snake8Tail = {-2,-3}
+
+    snakes = {{snake1, snake1Tail},{snake2, snake2Tail},{snake3, snake3Tail},{snake4, snake4Tail},{snake5, snake5Tail},{snake6, snake6Tail},{snake7, snake7Tail},{snake8, snake8Tail}}
+
+
 
     --table.insert(snakes, snake1, snake2, snake3, snake4, snake5, snake6, snake7, snake8)
 
@@ -46,6 +66,38 @@ function onLoad()
 
      -- table.insert(ladders, ladder1, ladder2, ladder3, ladder4, ladder5)
 
+end
+
+function setupBoard()
+    --a 10x10 matrix of available spaces, representing the board
+    boardAvailability = {{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},
+    {true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true}}
+
+    --first set up the snake
+    for i=1,8,1 do
+      randomX=math.random(1,10)
+      randomY=math.random(1,10)
+      --keep regeneating random X and Y coordinates until a valid coordinate is found
+      while((randomX + snakes[i][2][1] > 10 or randomX + snakes[i][2][1] <= 0) or (randomY + snakes[i][2][2] > 10 or randomY + snakes[i][2][2] <= 1) or boardAvailability[randomX][randomY]) do
+        randomX=math.random(1,10)
+        randomY=math.random(1,10)
+      end
+      --clear the head and tail location from possible boardlocations
+      boardAvailability[randomX][randomY] = false --head
+      boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]] = false --tail
+      boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]+1] = false --tail + 1 to allow the snake to grow
+
+      teleportObjectToBoardLoc(snakes[i][1], randomX, randomY)
+    end
+
+
+end
+
+function teleportObjectToBoardLoc(object, x, y)
+    --convert boardpos to worlpos(quickmafs)
+    worldX = x*(14/9.0) - 7
+    worldY = y*(14/9.0) - 7
+    object.setPosition(vector(worldX,1.59,worldY))
 end
 
 --[[ The onUpdate event is called once per frame. --]]
