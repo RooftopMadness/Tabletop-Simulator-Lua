@@ -7,10 +7,14 @@ snake = nil
 snakes = nil
 ladders = nil
 
-function onLoad()
+CARD_ZONE_GUID = "be756b"
+FINISH_TILE_GUID = "e38137"
 
-    firstLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    firstLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028727993033555978/Long_Snake_1.png", thickness = 0.001})
+function onLoad()
+  zone = getObjectFromGUID(FINISH_TILE_GUID)
+
+    -- firstLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    -- firstLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028733884566872234/Long_Snake_2.png", thickness = 0.001})
     -- secondLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
     -- secondLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028727237312253952/Ladder_5_centered.png", thickness = 0.001})
     -- thirdLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
@@ -48,23 +52,42 @@ function onLoad()
 
 
 
-    ladder1 = getObjectFromGUID("")
-    ladder1Base = nil -- {something, something}
+    ladder1 = getObjectFromGUID("9a722f")
+    ladder1Base = {-1,-2} -- {something, something}
 
-    ladder2 = getObjectFromGUID("")
-    ladder2Base = nil -- {something, something}
+    ladder2 = getObjectFromGUID("8e5509")
+    ladder2Base = {-1,-3} -- {something, something}
 
-    ladder3 = getObjectFromGUID("")
-    ladder3Base = nil -- {something, something}
+    ladder3 = getObjectFromGUID("414e29")
+    ladder3Base = {0,-1} -- {something, something}
 
-    ladder4 = getObjectFromGUID("")
-    ladder4Base = nil -- {something, something}
+    ladder4 = getObjectFromGUID("b5574d")
+    ladder4Base = {-1,-2} -- {something, something}
 
-    ladder5 = getObjectFromGUID("")
-    ladder5Base = nil -- {something, something}
+    ladder5 = getObjectFromGUID("6e843d")
+    ladder5Base = {1,-4} -- {something, something}
 
-    ladders = {ladder1, ladder2, ladder3, ladder4, ladder5}
-    -- ladders = {{ladder1, ladder1Base}, {ladder2, ladder2Base}, {ladder3, ladder3Base}, {ladder4, ladder4Base}, {ladder5, ladder5Base}}
+    ladders = {{ladder1, ladder1Base}, {ladder2, ladder2Base}, {ladder3, ladder3Base}, {ladder4, ladder4Base}, {ladder5, ladder5Base}}
+
+    Wait.condition(function()
+      print("End of game")
+    end,
+    function()
+      local possibleWinner = nil
+      if #zone.getObjects() == 0 then
+          return false
+      end
+      possibleWinner = zone.getObjects()
+      for k,v in pairs(possibleWinner) do  --go through all Objects
+        if v != nil
+        then
+          winner = v
+          print("Congratulations! You win")
+          return true
+        end
+      end
+      return false
+      end)
 
 end
 
@@ -111,10 +134,29 @@ function setupBoard()
       boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]+1] = false --tail + 1 to allow the snake to grow
       teleportObjectToBoardLoc(snakes[i][1], randomX, randomY)
 
+
     end
 
     for i=1, 5, 1 do
+      randomX=math.random(1,10)
+      randomY=math.random(1,10)
 
+      j = 1
+      --keep regeneating random X and Y coordinates until a valid coordinate is found
+      while(((randomX + ladders[i][2][1] > 10 or randomX + ladders[i][2][1] <= 0)
+      or randomY + ladders[i][2][2] > 10 or randomY + ladders[i][2][2] <= 1
+      or not boardAvailability[randomX][randomY]
+      or not boardAvailability[randomX + ladders[i][2][1]][randomY + ladders[i][2][2]])
+      and j<1000) do
+        randomX=math.random(1,10)
+        randomY=math.random(1,10)
+        j = j+1
+      end
+      boardAvailability[randomX][randomY] = false --head
+      boardAvailability[randomX + ladders[i][2][1]][randomY + ladders[i][2][2]] = false --tail
+      print(randomX)
+      print(randomY)
+      teleportObjectToBoardLoc(ladders[i][1], randomX, randomY)
     end
 end
 

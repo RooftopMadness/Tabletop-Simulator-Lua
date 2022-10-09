@@ -1,0 +1,86 @@
+--DECK_GUID = Global.getVar("SETUP_DECK_GUID")
+ZONE_GUID = Global.getVar("CARD_ZONE_GUID")
+
+shownCards = {}
+
+function clickSetup()
+  zone = getObjectFromGUID(ZONE_GUID)
+  local possibleDeck = zone.getObjects()
+  for k,v in pairs(possibleDeck) do  --go through all Objects
+    if v.tag == "Deck" then deck = v
+    end --if object found put it in draw_deck
+  end
+  --ocal deck = getObjectFromGUID(DECK_GUID)
+  if deck == nil then
+    printToAll("No deck found")
+    return
+  end
+  deckPosition = deck.getPosition()
+  xPos = deckPosition[1]
+  yPos = deckPosition[2]
+  zPos = deckPosition[3]
+  deck.randomize()
+
+for y = 0, 1 do
+  for i = 1, 4 do
+    local card = deck.takeObject({flip = true, position = {xPos + (3 * i), yPos, zPos + (4 * y)}})
+    table.insert(shownCards, card)
+  end
+end
+
+
+  flipCardsAfterXSeconds(5, shownCards)
+  shownCards = {}
+end
+
+function flipCardsAfterXSeconds(xSeconds, cards)
+  Wait.time(
+  function()
+    for cardCount = 1, #cards do
+       cards[cardCount].flip()
+    end
+    guessCard = cards[math.random(1, #cards)]
+    clonedCard = guessCard.clone()
+    clonedCard.setPosition(vector(xPos, yPos, zPos + 4))
+    printToAll("Flip the shown card above the deck")
+    checkAfterFlipIfYouWon(guessCard, cards)
+  end, xSeconds)
+end
+
+function checkAfterFlipIfYouWon(guessCard, cards)
+  Wait.time(function ()
+    Wait.condition(
+    function ()
+      print("Game over")
+      resetGame(cards)
+    end,
+    function ()
+      for cardCount = 1, #cards do
+        if not cards[cardCount].is_face_down then
+           if cards[cardCount] == guessCard then
+             printToAll("You guessed the right card!")
+             return true
+           else
+             printToAll("You guessed the wrong card!")
+             guessCard.flip()
+             return true
+           end
+         end
+      end
+      return false
+    end)
+  end, 2)
+end
+
+function resetGame(cards)
+  Wait.time(function()
+    printToAll("Resetting game")
+    for cardCount = 1, #cards do
+      if not cards[cardCount].is_face_down then
+        cards[cardCount].flip()
+      end
+       cards[cardCount].setPosition(deckPosition)
+       clonedCard.destruct()
+    end
+  end, 6)
+end
