@@ -9,21 +9,19 @@ ladders = nil
 
 function onLoad()
 
-    --firstLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --firstLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
-    --secondLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --secondLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
-    --thirdLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --thirdLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
-    --fourthLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --fourthLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
-    --fifthLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --fifthLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
-
-    --every snake has a property; the location of the tail compared to the head {x difference (left negative), y difference (down negative)}
+    firstLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    firstLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028727993033555978/Long_Snake_1.png", thickness = 0.001})
+    -- secondLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    -- secondLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028727237312253952/Ladder_5_centered.png", thickness = 0.001})
+    -- thirdLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    -- thirdLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028727237714911294/Ladder_1_centered.png", thickness = 0.001})
+    -- fourthLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    -- fourthLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028727238050451628/Ladder_2_centered.png", thickness = 0.001})
+    -- fifthLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    -- fifthLadder.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028727238402773032/Ladder_3_centered.png", thickness = 0.001})
 
     snake1 = getObjectFromGUID("02c5af")
-    snake1Tail = {-1, -4}
+    snake1Tail = {-1, -4} --location of tail relative to head {x difference (left negative), y difference (down negative)}
 
     snake2 = getObjectFromGUID("d276ce")
     snake2Tail = {0, -2}
@@ -92,33 +90,35 @@ function setupBoard()
 
       --keep regeneating random X and Y coordinates until a valid coordinate is found
       j = 1
-      while(((randomX + snakes[i][2][1] > 10 or randomX + snakes[i][2][1] <= 0) or (randomY + snakes[i][2][2] > 10 or randomY + snakes[i][2][2] <= 1 or
-      not boardAvailability[randomX][randomY] or not boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]])) and j<100) do
+      while(((randomX + snakes[i][2][1] > 10 or randomX + snakes[i][2][1] <= 0)
+      or (randomY + snakes[i][2][2] > 10 or randomY + snakes[i][2][2] <= 1
+      or not boardAvailability[randomX][randomY]
+      or not boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]]))
+      and j<100)
+      do
+
         randomX=math.random(1,10)
         randomY=math.random(1,10)
         j = j+1
+
       end
 
       --clear the head and tail location from possible boardlocations
-      print("found random location:")
-      print(randomX)
-      print(randomY)
-      print("for snake;")
-      print(i)
       boardAvailability[randomX][randomY] = false --head
-      print("aaaa")
-      boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]] = false --tail
-      boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]+1] = false --tail + 1 to allow the snake to grow
-      print(tostring(boardAvailability))
 
+      boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]] = false --tail
+
+      boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]+1] = false --tail + 1 to allow the snake to grow
       teleportObjectToBoardLoc(snakes[i][1], randomX, randomY)
+
     end
 
+    for i=1, 5, 1 do
 
+    end
 end
 
 function teleportObjectToBoardLoc(object, x, y)
-
     --convert boardpos to worlpos(quickmafs)
     worldX = (x-1)*(14/9.0) - 7
     worldY = (y-1)*(14/9.0) - 7 + 0.6 --correction, dont know why dont ask :)))
