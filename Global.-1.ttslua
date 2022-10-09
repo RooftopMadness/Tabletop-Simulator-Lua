@@ -8,85 +8,108 @@ snakes = nil
 ladders = nil
 
 function onLoad()
-    --[[ print('onLoad!') --]]
-    --firstSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --firstSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617487916474378/snake_1_centered.png", thickness = 0.001})
-    --secondSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --secondSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617488306552863/snake_2_centered.png", thickness = 0.001})
-    --thirdSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --thirdSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617488767914024/snake_3_centered.png", thickness = 0.001})
-    --fourthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --fourthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617489204133898/snake_4_centered.png", thickness = 0.001})
-    --fifthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --fifthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617489648730112/snake_5_centered.png", thickness = 0.001})
-    --sixthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --sixthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617490252701746/snake_6_centered.png", thickness = 0.001})
-    --seventhSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --seventhSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617490567282719/snake_7_centered.png", thickness = 0.001})
-    --eigthSnake = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
-    --eigthSnake.setCustomObject({image = "https://cdn.discordapp.com/attachments/839221248437387265/1028617491120918578/snake_8_centered.png", thickness = 0.001})
+
+    --firstLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    --firstLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
+    --secondLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    --secondLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
+    --thirdLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    --thirdLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
+    --fourthLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    --fourthLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
+    --fifthLadder = spawnObject({type="Custom_Token", position=Vector(0,3,0)})
+    --fifthLadder.setCustomObject({image = "[enter url here]", thickness = 0.001})
 
     --every snake has a property; the location of the tail compared to the head {x difference (left negative), y difference (down negative)}
+
     snake1 = getObjectFromGUID("02c5af")
-    snake1Tail = {-1,-4}
+    snake1Tail = {-1, -4}
 
     snake2 = getObjectFromGUID("d276ce")
-    snake2Tail = {0,-2}
+    snake2Tail = {0, -2}
 
     snake3 = getObjectFromGUID("f8f64c")
-    snake3Tail = {2,-3}
+    snake3Tail = {2, -3}
 
     snake4 = getObjectFromGUID("175c27")
-    snake4Tail = {1,-3}
+    snake4Tail = {1, -3}
 
     snake5 = getObjectFromGUID("453cb8")
-    snake5Tail = {1,-3}
+    snake5Tail = {1, -3}
 
     snake6 = getObjectFromGUID("f8c5b3")
-    snake6Tail = {1,-2}
+    snake6Tail = {1, -2}
 
     snake7 = getObjectFromGUID("06063b")
-    snake7Tail = {-1,-2}
+    snake7Tail = {-1, -2}
 
     snake8 = getObjectFromGUID("e4f8df")
-    snake8Tail = {-2,-3}
+    snake8Tail = {-2, -3}
 
-    snakes = {{snake1, snake1Tail},{snake2, snake2Tail},{snake3, snake3Tail},{snake4, snake4Tail},{snake5, snake5Tail},{snake6, snake6Tail},{snake7, snake7Tail},{snake8, snake8Tail}}
+    snakes = {{snake1, snake1Tail}, {snake2, snake2Tail}, {snake3, snake3Tail}, {snake4, snake4Tail}, {snake5, snake5Tail}, {snake6, snake6Tail}, {snake7, snake7Tail}, {snake8, snake8Tail}}
 
 
 
     ladder1 = getObjectFromGUID("")
+    ladder1Base = nil -- {something, something}
+
     ladder2 = getObjectFromGUID("")
+    ladder2Base = nil -- {something, something}
+
     ladder3 = getObjectFromGUID("")
+    ladder3Base = nil -- {something, something}
+
     ladder4 = getObjectFromGUID("")
+    ladder4Base = nil -- {something, something}
+
     ladder5 = getObjectFromGUID("")
+    ladder5Base = nil -- {something, something}
 
     ladders = {ladder1, ladder2, ladder3, ladder4, ladder5}
+    -- ladders = {{ladder1, ladder1Base}, {ladder2, ladder2Base}, {ladder3, ladder3Base}, {ladder4, ladder4Base}, {ladder5, ladder5Base}}
 
 end
 
 function setupBoard()
     --a 10x10 matrix of available spaces, representing the board
-    boardAvailability = {{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},
-    {true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true}}
+    boardAvailability = {
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true},
+      {true,true,true,true,true,true,true,true,true,true}
+    }
 
     --first set up the snake
     for i=1,8,1 do
       randomX=math.random(1,10)
       randomY=math.random(1,10)
-      print(i)
+
       --keep regeneating random X and Y coordinates until a valid coordinate is found
       j = 1
-      while(((randomX + snakes[i][2][1] > 10 or randomX + snakes[i][2][1] <= 0) or (randomY + snakes[i][2][2] > 10 or randomY + snakes[i][2][2] <= 1) or not boardAvailability[randomX][randomY]) and j>100) do
+      while(((randomX + snakes[i][2][1] > 10 or randomX + snakes[i][2][1] <= 0) or (randomY + snakes[i][2][2] > 10 or randomY + snakes[i][2][2] <= 1 or
+      not boardAvailability[randomX][randomY] or not boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]])) and j<100) do
         randomX=math.random(1,10)
         randomY=math.random(1,10)
         j = j+1
-        print(j)
       end
+
       --clear the head and tail location from possible boardlocations
+      print("found random location:")
+      print(randomX)
+      print(randomY)
+      print("for snake;")
+      print(i)
       boardAvailability[randomX][randomY] = false --head
+      print("aaaa")
       boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]] = false --tail
       boardAvailability[randomX + snakes[i][2][1]][randomY + snakes[i][2][2]+1] = false --tail + 1 to allow the snake to grow
+      print(tostring(boardAvailability))
 
       teleportObjectToBoardLoc(snakes[i][1], randomX, randomY)
     end
@@ -95,9 +118,10 @@ function setupBoard()
 end
 
 function teleportObjectToBoardLoc(object, x, y)
+
     --convert boardpos to worlpos(quickmafs)
-    worldX = x*(14/9.0) - 7
-    worldY = y*(14/9.0) - 7
+    worldX = (x-1)*(14/9.0) - 7
+    worldY = (y-1)*(14/9.0) - 7 + 0.6 --correction, dont know why dont ask :)))
     object.setPosition(vector(worldX,1.59,worldY))
 end
 
