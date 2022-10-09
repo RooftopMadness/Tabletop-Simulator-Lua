@@ -55,16 +55,13 @@ function onLoad()
 
 
 
-    --table.insert(snakes, snake1, snake2, snake3, snake4, snake5, snake6, snake7, snake8)
-
-
     ladder1 = getObjectFromGUID("")
     ladder2 = getObjectFromGUID("")
     ladder3 = getObjectFromGUID("")
     ladder4 = getObjectFromGUID("")
     ladder5 = getObjectFromGUID("")
 
-     -- table.insert(ladders, ladder1, ladder2, ladder3, ladder4, ladder5)
+    ladders = {ladder1, ladder2, ladder3, ladder4, ladder5}
 
 end
 
@@ -77,10 +74,14 @@ function setupBoard()
     for i=1,8,1 do
       randomX=math.random(1,10)
       randomY=math.random(1,10)
+      print(i)
       --keep regeneating random X and Y coordinates until a valid coordinate is found
-      while((randomX + snakes[i][2][1] > 10 or randomX + snakes[i][2][1] <= 0) or (randomY + snakes[i][2][2] > 10 or randomY + snakes[i][2][2] <= 1) or boardAvailability[randomX][randomY]) do
+      j = 1
+      while(((randomX + snakes[i][2][1] > 10 or randomX + snakes[i][2][1] <= 0) or (randomY + snakes[i][2][2] > 10 or randomY + snakes[i][2][2] <= 1) or not boardAvailability[randomX][randomY]) and j>100) do
         randomX=math.random(1,10)
         randomY=math.random(1,10)
+        j = j+1
+        print(j)
       end
       --clear the head and tail location from possible boardlocations
       boardAvailability[randomX][randomY] = false --head
